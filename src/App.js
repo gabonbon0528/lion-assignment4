@@ -6,7 +6,7 @@ import Week from "./components/Week";
 
 function App() {
   useEffect(() => {
-    fetch('./json.data1.json')
+    fetch('./json/data1.json')
       .then((response) => response.json())
       .then((data) => {
         console.log("data", data);
