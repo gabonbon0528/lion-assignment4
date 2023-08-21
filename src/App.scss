@@ -1,0 +1,130 @@
+@import-normalize; /* bring in normalize.css styles */
+// status: "報名", // {string} 報名(#24a07c) | 後補(#24a07c) | 預定(#24a07c) | 截止(#ff7800) | 額滿(#ff7800) | 關團(#ff7800)
+$green: #24a07c;
+$orange: #ff7800;
+
+$tab-bgc: #ebe7d9;
+$dates-bgc: #f7f7f7;
+
+a {
+  text-decoration: none;
+  color: black;
+}
+
+ul {
+  padding: 0;
+  margin: 0;
+}
+
+li {
+  list-style: none;
+}
+
+.calendars {
+  width: 70%;
+  margin: 0 auto;
+  background-color: #fff;
+
+  .month-wrapper {
+    display: flex;
+    background-color: $tab-bgc;
+    cursor: pointer;
+
+    .on {
+      flex-basis: 5%;
+      background-color: tomato;
+    }
+
+    .tab-wrapper {
+      flex-basis: 90%;
+
+      display: flex;
+
+      .tab {
+        flex-basis: calc(100% / 3);
+        height: 50px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+
+        span {
+          display: block;
+          text-align: center;
+          font-size: 14px;
+        }
+      }
+    }
+  }
+
+  .week-wrapper {
+    width: 100%;
+    display: flex;
+
+    th {
+      flex-basis: calc(100% / 7);
+      line-height: 2;
+    }
+  }
+
+  .dates-wrapper {
+    display: flex;
+    background-color: $dates-bgc;
+
+    .date {
+      flex-basis: calc(100% / 7);
+      transition: .1s;
+    }
+
+    .disabled {
+    }
+
+    .has-data {
+      display: flex;
+      flex-wrap: wrap;
+      background-color: #fff;
+      box-sizing: border-box;
+      padding: 1px;
+      &:hover{
+        background-color: lemonchiffon;
+      }
+
+      .fb-50per {
+        flex-basis: 50%;
+      }
+      .fb-100per {
+        flex-basis: 100%;
+      }
+
+      .color-orange{
+        color: $orange;
+      }
+
+      .color-green{
+        color:$green;
+      }
+
+      .item{
+        line-height: 1.2;
+      }
+
+      .tag{
+        background-color: #ff7800;
+        color: #fff;
+        font-weight: bold;
+        text-align: center;
+        box-sizing: border-box;
+        padding: 2px;
+      }
+
+      .status{
+        font-weight: bold;
+      }
+
+      .price{
+        color: tomato;
+        font-weight: bold;
+      }
+
+    }
+  }
+}

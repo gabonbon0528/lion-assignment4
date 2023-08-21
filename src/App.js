@@ -1,23 +1,25 @@
-import logo from './logo.svg';
-import './App.css';
+import { useEffect } from "react";
+import "./App.scss";
+import Dates from "./components/Dates";
+import Month from "./components/Month";
+import Week from "./components/Week";
 
 function App() {
+  useEffect(() => {
+    fetch('./json.data1.json')
+      .then((response) => response.json())
+      .then((data) => {
+        console.log("data", data);
+      }).catch((error) => {
+        console.log(error)
+      });
+  }, []);
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div className="calendars">
+      <Month />
+      <Week />
+      <Dates />
     </div>
   );
 }
