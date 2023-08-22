@@ -60,9 +60,11 @@ li {
     width: 100%;
     display: flex;
 
-    th {
+    div {
       flex-basis: calc(100% / 7);
       line-height: 2;
+      text-align: center;
+      font-weight: bold;
     }
   }
 
@@ -72,7 +74,7 @@ li {
 
     .date {
       flex-basis: calc(100% / 7);
-      transition: .1s;
+      transition: 0.1s;
     }
 
     .disabled {
@@ -84,8 +86,8 @@ li {
       background-color: #fff;
       box-sizing: border-box;
       padding: 1px;
-      &:hover{
-        background-color: lemonchiffon;
+      &:hover {
+        background-color: #fef7e2;
       }
 
       .fb-50per {
@@ -95,19 +97,19 @@ li {
         flex-basis: 100%;
       }
 
-      .color-orange{
+      .color-orange {
         color: $orange;
       }
 
-      .color-green{
-        color:$green;
+      .color-green {
+        color: $green;
       }
 
-      .item{
+      .item {
         line-height: 1.2;
       }
 
-      .tag{
+      .tag {
         background-color: #ff7800;
         color: #fff;
         font-weight: bold;
@@ -116,15 +118,19 @@ li {
         padding: 2px;
       }
 
-      .status{
+      .status {
         font-weight: bold;
       }
 
-      .price{
+      .price {
         color: tomato;
         font-weight: bold;
       }
+    }
 
+    .has-data.clicked {
+      background-color: #fef7e2;
+      outline: 2px solid #66bb3c;
     }
   }
 }

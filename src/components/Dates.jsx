@@ -1,20 +1,48 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
+import Date from "./Date";
+import moment from "moment";
 
-const Dates = () => {
+const Dates = ({ selectData, month }) => {
+  const [firstDay, setFirstDay] = useState(0);
+
+  useEffect(() => {
+    let weekday = moment(`${month}/01`).format("dddd");
+    console.log("weekday", weekday);
+
+    switch (weekday) {
+      case "Monday":
+        setFirstDay(1);
+        break;
+      case "Tuesday":
+        setFirstDay(2);
+        break;
+      case "Wednesday":
+        setFirstDay(3);
+        break;
+      case "Thursday":
+        setFirstDay(4);
+        break;
+      case "Friday":
+        setFirstDay(5);
+        break;
+      case "Saturday":
+        setFirstDay(6);
+        break;
+      case "Sunday":
+        setFirstDay(7);
+        break;
+      default:
+        setFirstDay(0);
+    }
+  }, []);
+
   return (
     <ul className="dates-wrapper">
-      <li className="date disabled"></li>
-      <li className="date has-data">
-        <span className="num fb-50per item">1</span>
-        <span className="tag fb-50per item">成團</span>
-        <span className="status fb-100per item color-green">候補</span>
-        <span className="sell fb-100per item">可賣：0</span>
-        <span className="group fb-100per item">團位：0</span>
-        <span className="tip fb-100per item">
-          <i className="ic-ln productreferf item"></i>保證出團
-        </span>
-        <span className="price fb-100per">$4,999</span>
-      </li>
+      {/* <li className="date disabled"></li> */}
+      {Array.from({ length: firstDay }, (_, index) => (
+        <li key={index} className="date disabled"></li>
+      ))}
+      <Date />
     </ul>
   );
 };
