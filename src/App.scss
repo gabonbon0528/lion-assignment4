@@ -2,6 +2,7 @@
 // status: "報名", // {string} 報名(#24a07c) | 後補(#24a07c) | 預定(#24a07c) | 截止(#ff7800) | 額滿(#ff7800) | 關團(#ff7800)
 $green: #24a07c;
 $orange: #ff7800;
+$blue: #1a84b7;
 
 $tab-bgc: #ebe7d9;
 $dates-bgc: #f7f7f7;
@@ -21,7 +22,7 @@ li {
 }
 
 .calendars {
-  width: 70%;
+  width: 60%;
   margin: 0 auto;
   background-color: #fff;
 
@@ -53,6 +54,11 @@ li {
           font-size: 14px;
         }
       }
+
+      .tab.clicked {
+        background-color: #fff;
+        color: tomato;
+      }
     }
   }
 
@@ -70,10 +76,19 @@ li {
 
   .dates-wrapper {
     display: flex;
+    flex-wrap: wrap;
     background-color: $dates-bgc;
 
     .date {
-      flex-basis: calc(100% / 7);
+      flex-basis: calc((100% - 6px) / 7);
+      height: 80px;
+      margin-right: 1px;
+      margin-bottom: 1px;
+
+      &:nth-child(7n) {
+        margin-right: 0px;
+      }
+
       transition: 0.1s;
     }
 
@@ -86,6 +101,7 @@ li {
       background-color: #fff;
       box-sizing: border-box;
       padding: 1px;
+      cursor: pointer;
       &:hover {
         background-color: #fef7e2;
       }
@@ -105,11 +121,18 @@ li {
         color: $green;
       }
 
+      .color-blue {
+        color: $blue;
+        font-weight: bold;
+      }
+
       .item {
         line-height: 1.2;
       }
 
       .tag {
+        display: none;
+
         background-color: #ff7800;
         color: #fff;
         font-weight: bold;
@@ -118,19 +141,23 @@ li {
         padding: 2px;
       }
 
+      .tag.show-tag {
+        display: block;
+      }
+
       .status {
         font-weight: bold;
       }
 
       .price {
         color: tomato;
-        font-weight: bold;
+        // font-weight: bold;
       }
     }
 
     .has-data.clicked {
       background-color: #fef7e2;
-      outline: 2px solid #66bb3c;
+      border: 2px solid #66bb3c;
     }
   }
 }

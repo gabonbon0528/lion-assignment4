@@ -5,7 +5,7 @@ import Month from "./components/Month";
 import Week from "./components/Week";
 
 function App() {
-  const [month, setMonth] = useState("2017/08");
+  const [month, setMonth] = useState("2018/08");
   const [rawData, setRawData] = useState([]);
   const [selectData, setSelectData] = useState([]);
 
@@ -18,7 +18,6 @@ function App() {
     await Promise.all([response1, response2, response3, response4])
       .then((responses) => Promise.all(responses.map((r) => r.json())))
       .then((data) => {
-        // console.log("data: ", data)
         setRawData(data.flat());
       })
       .catch((err) => {
@@ -31,23 +30,17 @@ function App() {
   }, []);
 
   useEffect(() => {
-    // console.log("rawData: ", rawData);
     setSelectData(
       rawData.filter((item) => {
         return item.date.includes(month);
       })
     );
-    // console.log("selectData", selectData);
-    // console.log("rawData:",rawData);
-    // setSelectData(selectData)
-    // console.log(selectData);
-    // console.log(month);
-    // console.log(rawData[0]?.date.includes(month));
+
   }, [rawData, month]);
 
   return (
     <div className="calendars">
-      <Month />
+      <Month month={month} setMonth={setMonth}/>
       <Week />
       <Dates selectData={selectData} month={month} />
     </div>
