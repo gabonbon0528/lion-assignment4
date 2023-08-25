@@ -2,13 +2,13 @@ import React from "react";
 import { useEffect, useState } from "react";
 import SeeMore from "./SeeMore";
 
-const Date = ({ item, index, isClicked, handleClick }) => {
+const Date = ({ item, index, isClicked, handleClick, month }) => {
   let itemLength = item.length;
 
   return (
     <li
-      className={`date has-data ${isClicked == index && "clicked"}`}
-      id={index}
+      className={`date has-data ${isClicked == `${month}/${index}` && "clicked"}`}
+      id={`${month}/${index}`}
       onClick={(e) => handleClick(e)}
     >
       {itemLength === 0 && (

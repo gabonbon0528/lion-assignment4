@@ -23,17 +23,54 @@ li {
 
 .calendars {
   width: 60%;
+  min-width: 600px;
   margin: 0 auto;
   background-color: #fff;
+
+  .fb-50per {
+    flex-basis: 50%;
+  }
+  .fb-100per {
+    flex-basis: 100%;
+  }
 
   .month-wrapper {
     display: flex;
     background-color: $tab-bgc;
     cursor: pointer;
+    box-sizing: border-box;
+    padding-top: 5px;
 
     .on {
       flex-basis: 5%;
-      background-color: tomato;
+      background-color: $tab-bgc;
+      position: relative;
+    }
+
+    .prev {
+      &:after {
+        content: "";
+        position: absolute;
+        width: 0;
+        height: 0;
+        border: 10px solid;
+        border-color: transparent tomato transparent transparent;
+        top: 15px;
+        left: 0px;
+      }
+    }
+
+    .next {
+      &:after {
+        content: "";
+        position: absolute;
+        width: 0;
+        height: 0;
+        border: 10px solid;
+        border-color: transparent transparent transparent tomato;
+        top: 15px;
+        right: 0px;
+      }
     }
 
     .tab-wrapper {
@@ -45,13 +82,20 @@ li {
         flex-basis: calc(100% / 3);
         height: 50px;
         display: flex;
+        flex-wrap: wrap;
         align-items: center;
+        align-content: center;
         justify-content: center;
 
         span {
-          display: block;
           text-align: center;
           font-size: 14px;
+        }
+
+        .desc {
+          font-size: 12px;
+          font-weight: bold;
+          color: $green;
         }
       }
 
@@ -78,6 +122,7 @@ li {
     display: flex;
     flex-wrap: wrap;
     background-color: $dates-bgc;
+    border: 2px solid #f7f7f7;
 
     .date {
       flex-basis: calc((100% - 6px) / 7);
@@ -104,13 +149,6 @@ li {
       cursor: pointer;
       &:hover {
         background-color: #fef7e2;
-      }
-
-      .fb-50per {
-        flex-basis: 50%;
-      }
-      .fb-100per {
-        flex-basis: 100%;
       }
 
       .color-orange {
@@ -153,11 +191,25 @@ li {
         color: tomato;
         // font-weight: bold;
       }
+
+      .see-more {
+        position: relative;
+        &::after {
+          content: "";
+          position: absolute;
+          width: 0;
+          height: 0;
+          border: 5px solid;
+          border-color: transparent transparent transparent $blue;
+          top: 1px;
+          right: -15px;
+        }
+      }
     }
 
     .has-data.clicked {
       background-color: #fef7e2;
-      border: 2px solid #66bb3c;
+      outline: 1.5px solid #66bb3c;
     }
   }
 }
