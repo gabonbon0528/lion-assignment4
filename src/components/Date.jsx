@@ -2,24 +2,23 @@ import React from "react";
 import { useEffect, useState } from "react";
 import SeeMore from "./SeeMore";
 
-const Date = ({ item, index, isClicked, handleClick, month }) => {
+const Date = ({ item, date, isClicked, handleClick, month }) => {
   let itemLength = item.length;
 
   return (
     <li
-      className={`date has-data ${isClicked == `${month}/${index}` && "clicked"}`}
-      id={`${month}/${index}`}
+      className={`date has-data ${
+        isClicked == `${month}/${date}` ? "clicked" : ""
+      }`}
+      id={`${month}/${date}`}
       onClick={(e) => handleClick(e)}
     >
-      {itemLength === 0 && (
-        <span className="num fb-50per item">{index + 1}</span>
-      )}
+      <span className="num fb-50per item">{date}</span>
       {itemLength === 1 && (
         <>
-          <span className="num fb-50per item">{index + 1}</span>
           <span
             className={`tag fb-50per item ${
-              (item[0].guaranteed || item[0].certain) && "show-tag"
+              item[0].guaranteed || item[0].certain ? "show-tag" : ""
             }`}
           >
             成團
@@ -42,7 +41,7 @@ const Date = ({ item, index, isClicked, handleClick, month }) => {
           <span className="price fb-100per">${item[0].price}</span>
         </>
       )}
-      {itemLength > 1 && <SeeMore index={index} item={item}/>}
+      {itemLength > 1 && <SeeMore date={date} item={item} />}
     </li>
   );
 };

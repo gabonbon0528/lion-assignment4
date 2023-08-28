@@ -1,86 +1,55 @@
 import React, { useEffect, useState } from "react";
+import MonthTab from "./MonthTab";
 
-const Month = ({ month, setMonth, rawData }) => {
-  const [yearNum, setYearNum] = useState(2018);
-  const [monthNum, setMonthNum] = useState(8);
+const Month = ({ setMonth, rawData }) => {
+  const [tabYear, setTabYear] = useState(2018);
+  const [tabMonth, setTabMonth] = useState(8);
   const [activeTab, setActiveTab] = useState(0);
-  const [preMonthData, setPreMonthData] = useState([]);
-  const [nextMonthData, setNextMonthData] = useState([]);
-  const [middleMonthData, setMiddleMonthData] = useState([]);
 
-  const calculateAdjacentMonthNum = (position) => {
-    if (position == "prev") {
-      return monthNum > 1 ? monthNum - 1 : 12;
-    } else if (position == "next") {
-      return monthNum < 12 ? monthNum + 1 : 1;
+  const calculateMonthNum = (position) => {
+    if (position == -1) {
+      return tabMonth > 1 ? tabMonth - 1 : 12;
+    } else if (position == 1) {
+      return tabMonth < 12 ? tabMonth + 1 : 1;
     }
+    return tabMonth;
   };
 
-  const calculateAdjacentYearNum = (position) => {
-    if (position == "prev") {
-      return monthNum > 1 ? yearNum : yearNum - 1;
-    } else if (position == "next") {
-      return monthNum < 12 ? yearNum : yearNum + 1;
+  const calculateYearNum = (position) => {
+    if (position == -1) {
+      return tabMonth > 1 ? tabYear : tabYear - 1;
+    } else if (position == 1) {
+      return tabMonth < 12 ? tabYear : tabYear + 1;
     }
+    return tabYear;
+  };
+
+  const monthStr = (position) => {
+    if (position == 0) {
+      return `${tabYear}/${tabMonth.toString().padStart(2, "0")}`;
+    }
+    return `${calculateYearNum(position)}/${calculateMonthNum(position)
+      .toString()
+      .padStart(2, "0")}`;
   };
 
   useEffect(() => {
-    setPreMonthData(
-      rawData.filter((item) => {
-        return item.date.includes(
-          `${calculateAdjacentYearNum("prev")}/${calculateAdjacentMonthNum(
-            "prev"
-          )
-            .toString()
-            .padStart(2, "0")}`
-        );
-      })
-    );
-
-    setNextMonthData(
-      rawData.filter((item) => {
-        return item.date.includes(
-          `${calculateAdjacentYearNum("next")}/${calculateAdjacentMonthNum(
-            "next"
-          )
-            .toString()
-            .padStart(2, "0")}`
-        );
-      })
-    );
-
-    setMiddleMonthData(
-      rawData.filter((item) => {
-        return item.date.includes(
-          `${yearNum}/${monthNum.toString().padStart(2, "0")}`
-        );
-      })
-    );
-  }, [monthNum, rawData]);
-
-  useEffect(() => {
-    let newMonthNum = monthNum;
-    let newYearNum = yearNum;
-
     if (activeTab === -1) {
-      newMonthNum = monthNum > 1 ? monthNum - 1 : 12;
-      newYearNum = monthNum > 1 ? yearNum : yearNum - 1;
+      setMonth(monthStr(-1));
     } else if (activeTab === 1) {
-      newMonthNum = monthNum < 12 ? monthNum + 1 : 1;
-      newYearNum = monthNum < 12 ? yearNum : yearNum + 1;
+      setMonth(monthStr(1));
+    } else {
+      setMonth(monthStr(0));
     }
-
-    const monthStr = `${newYearNum}/${newMonthNum.toString().padStart(2, "0")}`;
-    setMonth(monthStr);
-  }, [activeTab, yearNum, monthNum]);
+  }, [activeTab, tabYear, tabMonth]);
 
   const handleClickPrevBtn = () => {
     if (activeTab !== -1) {
       setActiveTab(activeTab - 1);
     }
     if (activeTab == -1) {
-      setMonthNum(calculateAdjacentMonthNum('prev'));
-      setYearNum(calculateAdjacentYearNum('prev'));
+      setTabMonth(calculateMonthNum(-1));
+      setTabYear(calculateYearNum(-1));
     }
   };
 
@@ -89,44 +58,27 @@ const Month = ({ month, setMonth, rawData }) => {
       setActiveTab(activeTab + 1);
     }
     if (activeTab == 1) {
-      setMonthNum(calculateAdjacentMonthNum('next'));
-      setYearNum(calculateAdjacentYearNum('next'));
+      setTabMonth(calculateMonthNum(1));
+      setTabYear(calculateYearNum(1));
     }
+  };
+
+  const commonProps = {
+    activeTab,
+    setActiveTab,
+    calculateYearNum,
+    calculateMonthNum,
+    rawData,
+    monthStr,
   };
 
   return (
     <div className="month-wrapper">
       <div className="prev on" onClick={handleClickPrevBtn}></div>
       <ul className="tab-wrapper">
-        <li
-          className={`tab ${activeTab == -1 && "clicked"}`}
-          onClick={() => setActiveTab(-1)}
-        >
-          <span className="fb-100per">
-            {calculateAdjacentYearNum('prev')}年
-            {calculateAdjacentMonthNum('prev')}月
-          </span>
-          {!preMonthData.length && <span className="desc">無出發日</span>}
-        </li>
-        <li
-          className={`tab ${activeTab == 0 && "clicked"}`}
-          onClick={() => setActiveTab(0)}
-        >
-          <span className="fb-100per">
-            {yearNum}年{monthNum}月
-          </span>
-          {!middleMonthData.length && <span className="desc">無出發日</span>}
-        </li>
-        <li
-          className={`tab ${activeTab == 1 && "clicked"}`}
-          onClick={() => setActiveTab(1)}
-        >
-          <span className="fb-100per">
-            {calculateAdjacentYearNum('next')}年
-            {calculateAdjacentMonthNum('next')}月
-          </span>
-          {!nextMonthData.length && <span className="desc">無出發日</span>}
-        </li>
+        <MonthTab {...commonProps} position={-1} />
+        <MonthTab {...commonProps} position={0} />
+        <MonthTab {...commonProps} position={1} />
       </ul>
       <div className="next on" onClick={handleClickNextvBtn}></div>
     </div>

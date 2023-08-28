@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 
-const SeeMore = ({ index, item }) => {
+const SeeMore = ({ date, item }) => {
   const[lowestPrice, setLowestPrice] = useState(0);
 
   useEffect(() => {
@@ -16,7 +16,6 @@ const SeeMore = ({ index, item }) => {
 
   return (
     <>
-      <span className="num fb-100per item">{index + 1}</span>
       <div className="see-more">
         <div className="color-blue">看更多產品</div>
         <span className="price">${lowestPrice}</span>

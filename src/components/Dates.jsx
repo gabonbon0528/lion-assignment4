@@ -30,7 +30,7 @@ const Dates = ({ selectData, month, prevDays, days }) => {
           <Date
             key={index}
             item={item}
-            index={index - prevDays}
+            date={index - prevDays + 1}
             isClicked={isClicked}
             handleClick={handleClick}
             month={month}

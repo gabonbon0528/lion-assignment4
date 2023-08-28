@@ -42,7 +42,6 @@ function App() {
 
   useEffect(() => {
     let weekday = moment(`${month}/01`).format("dddd");
-    // console.log(weekday);
 
     switch (weekday) {
       case "Monday":
@@ -95,7 +94,7 @@ function App() {
 
   return (
     <div className="calendars">
-      <Month month={month} setMonth={setMonth} rawData={rawData} selectData={selectData}/>
+      <Month month={month} setMonth={setMonth} rawData={rawData}/>
       <Week />
       <Dates
         selectData={selectData}
