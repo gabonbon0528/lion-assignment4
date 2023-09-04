@@ -1,23 +1,31 @@
 import React, { useEffect, useState } from "react";
-import Date from "./Date";
+import Cell from "./Cell";
 import Filling from "./Filling";
 
-const Dates = ({ selectData, month, prevDays, days }) => {
+const Table = ({ selectData, month, days }) => {
   const [daysData, setDaysData] = useState([]);
-  const [isClicked, setIsClicked] = useState('');
+  const [isClicked, setIsClicked] = useState("");
+
+  const [yearNum, monthNum] = month.split("/").map(Number);
+
+  const weekdayOfFirstDay = new Date(yearNum, monthNum - 1, 1).getDay();
+  let numberOfSpaces = weekdayOfFirstDay;
+
+  const lastDay = new Date(yearNum, monthNum, 0).getDate();
 
   useEffect(() => {
-    const calendarArray = Array.from({ length: days }, (_, index) => {
+    // 用成物件？？？
+    const calendarArray = Array.from({ length: lastDay }, (_, index) => {
       const day = index + 1;
       const dateString = `${month}/${day.toString().padStart(2, "0")}`;
       const dataForDay = selectData.filter((item) => item.date === dateString);
       return dataForDay;
     });
 
-    const fillingArr = Array.from({ length: prevDays }, () => null);
+    const fillingArr = Array.from({ length: numberOfSpaces }, () => null);
     let totalArray = [...fillingArr, ...calendarArray];
     setDaysData(totalArray);
-  }, [month, days, selectData]);
+  }, [month, selectData]);
 
   function handleClick(e) {
     setIsClicked(e.currentTarget.id);
@@ -27,10 +35,10 @@ const Dates = ({ selectData, month, prevDays, days }) => {
     <ul className="dates-wrapper">
       {daysData.map((item, index) =>
         item ? (
-          <Date
+          <Cell
             key={index}
             item={item}
-            date={index - prevDays + 1}
+            date={index - numberOfSpaces + 1}
             isClicked={isClicked}
             handleClick={handleClick}
             month={month}
@@ -43,4 +51,4 @@ const Dates = ({ selectData, month, prevDays, days }) => {
   );
 };
 
-export default Dates;
+export default Table;

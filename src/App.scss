@@ -209,6 +209,7 @@ li {
     .has-data.clicked {
       background-color: #fef7e2;
       outline: 1.5px solid #66bb3c;
+      z-index: 1;
     }
   }
 }

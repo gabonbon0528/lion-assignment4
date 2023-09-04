@@ -1,15 +1,13 @@
 import { useEffect, useState } from "react";
 import "./App.scss";
-import Dates from "./components/Dates";
+import Table from "./components/Table";
 import Month from "./components/Month";
 import Week from "./components/Week";
-import moment from "moment";
 
 function App() {
   const [month, setMonth] = useState("2018/08");
   const [rawData, setRawData] = useState([]);
   const [selectData, setSelectData] = useState([]);
-  const [prevDays, setPreDays] = useState(0);
   const [days, setDays] = useState(30);
 
   const handleFetchData = async () => {
@@ -63,33 +61,6 @@ function App() {
   }, [rawData, month]);
 
   useEffect(() => {
-    let weekday = moment(`${month}/01`).format("dddd");
-
-    switch (weekday) {
-      case "Monday":
-        setPreDays(1);
-        break;
-      case "Tuesday":
-        setPreDays(2);
-        break;
-      case "Wednesday":
-        setPreDays(3);
-        break;
-      case "Thursday":
-        setPreDays(4);
-        break;
-      case "Friday":
-        setPreDays(5);
-        break;
-      case "Saturday":
-        setPreDays(6);
-        break;
-      case "Sunday":
-        setPreDays(0);
-        break;
-      default:
-        setPreDays(0);
-    }
 
     const [yearNum, monthNum] = month.split("/").map(Number);
     switch (monthNum) {
@@ -117,10 +88,9 @@ function App() {
     <div className="calendar">
       <Month month={month} setMonth={setMonth} rawData={rawData} />
       <Week />
-      <Dates
+      <Table
         selectData={selectData}
         month={month}
-        prevDays={prevDays}
         days={days}
       />
     </div>

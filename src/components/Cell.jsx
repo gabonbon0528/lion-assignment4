@@ -1,8 +1,7 @@
 import React from "react";
 import SeeMore from "./SeeMore";
 
-const Date = ({ item, date, isClicked, handleClick, month }) => {
-  let itemLength = item.length;
+const Cell = ({ item, date, isClicked, handleClick, month }) => {
 
   return (
     <li
@@ -10,10 +9,10 @@ const Date = ({ item, date, isClicked, handleClick, month }) => {
         isClicked === `${month}/${date}` ? "clicked" : ""
       }`}
       id={`${month}/${date}`}
-      onClick={(e) => handleClick(e)}
+      onClick={handleClick} // no (e) => handleClick(e) 
     >
       <span className="num fb-50per item">{date}</span>
-      {itemLength === 1 && (
+      {item.length === 1 && (
         <>
           <span
             className={`tag fb-50per item ${
@@ -40,9 +39,9 @@ const Date = ({ item, date, isClicked, handleClick, month }) => {
           <span className="price fb-100per">${item[0].price}</span>
         </>
       )}
-      {itemLength > 1 && <SeeMore item={item} />}
+      {item.length > 1 && <SeeMore item={item} />}
     </li>
   );
 };
 
-export default Date;
+export default Cell;
