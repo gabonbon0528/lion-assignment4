@@ -7,25 +7,25 @@ const Month = ({ setMonth, rawData }) => {
   const [activeTab, setActiveTab] = useState(0);
 
   const calculateMonthNum = (position) => {
-    if (position == -1) {
+    if (position === -1) {
       return tabMonth > 1 ? tabMonth - 1 : 12;
-    } else if (position == 1) {
+    } else if (position === 1) {
       return tabMonth < 12 ? tabMonth + 1 : 1;
     }
     return tabMonth;
   };
 
   const calculateYearNum = (position) => {
-    if (position == -1) {
+    if (position === -1) {
       return tabMonth > 1 ? tabYear : tabYear - 1;
-    } else if (position == 1) {
+    } else if (position === 1) {
       return tabMonth < 12 ? tabYear : tabYear + 1;
     }
     return tabYear;
   };
 
   const monthStr = (position) => {
-    if (position == 0) {
+    if (position === 0) {
       return `${tabYear}/${tabMonth.toString().padStart(2, "0")}`;
     }
     return `${calculateYearNum(position)}/${calculateMonthNum(position)
@@ -47,7 +47,7 @@ const Month = ({ setMonth, rawData }) => {
     if (activeTab !== -1) {
       setActiveTab(activeTab - 1);
     }
-    if (activeTab == -1) {
+    if (activeTab === -1) {
       setTabMonth(calculateMonthNum(-1));
       setTabYear(calculateYearNum(-1));
     }
@@ -57,17 +57,14 @@ const Month = ({ setMonth, rawData }) => {
     if (activeTab !== 1) {
       setActiveTab(activeTab + 1);
     }
-    if (activeTab == 1) {
+    if (activeTab === 1) {
       setTabMonth(calculateMonthNum(1));
       setTabYear(calculateYearNum(1));
     }
   };
 
   const commonProps = {
-    activeTab,
     setActiveTab,
-    calculateYearNum,
-    calculateMonthNum,
     rawData,
     monthStr,
   };
@@ -76,13 +73,32 @@ const Month = ({ setMonth, rawData }) => {
     <div className="month-wrapper">
       <div className="prev on" onClick={handleClickPrevBtn}></div>
       <ul className="tab-wrapper">
-        <MonthTab {...commonProps} position={-1} />
-        <MonthTab {...commonProps} position={0} />
-        <MonthTab {...commonProps} position={1} />
+        <MonthTab
+          {...commonProps}
+          position={-1}
+          isClicked={activeTab === -1}
+          yearNum={calculateYearNum(-1)}
+          monthNum={calculateMonthNum(-1)}
+        />
+        <MonthTab
+          {...commonProps}
+          position={0}
+          isClicked={activeTab === 0}
+          yearNum={calculateYearNum(0)}
+          monthNum={calculateMonthNum(0)}
+        />
+        <MonthTab
+          {...commonProps}
+          position={1}
+          isClicked={activeTab === 1}
+          yearNum={calculateYearNum(1)}
+          monthNum={calculateMonthNum(1)}
+        />
       </ul>
       <div className="next on" onClick={handleClickNextvBtn}></div>
     </div>
   );
 };
+
 
 export default Month;

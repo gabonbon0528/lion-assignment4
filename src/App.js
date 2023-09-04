@@ -13,31 +13,53 @@ function App() {
   const [days, setDays] = useState(30);
 
   const handleFetchData = async () => {
-    let response1 = fetch("./json/data1.json");
-    let response2 = fetch("./json/data2.json");
-    let response3 = fetch("./json/data3.json");
-    let response4 = fetch("./json/data4.json");
+    try {
+      const responses = await Promise.all([
+        fetch("./json/data1.json"),
+        fetch("./json/data2.json"),
+        fetch("./json/data3.json"),
+        fetch("./json/data4.json"),
+      ]);
 
-    await Promise.all([response1, response2, response3, response4])
-      .then((responses) => Promise.all(responses.map((r) => r.json())))
-      .then((data) => {
-        setRawData(data.flat());
-      })
-      .catch((err) => {
-        console.log(err);
-      });
+      const data = await Promise.all(responses.map((r) => r.json()));
+
+      const modifiedData = data.flatMap((item, index) =>
+        index === 1 ? changeKey(item) : item
+      );
+
+      setRawData(modifiedData);
+    } catch (err) {
+      console.log(err);
+    }
   };
+
+  function changeKey(data) {
+    return data.map((item) => {
+      return {
+        date: item.date,
+        price: item.price,
+        guaranteed: item.certain,
+        availableVancancy: item.onsell,
+        totalVacnacy: item.total,
+        status: item.state,
+      };
+    });
+  }
 
   useEffect(() => {
     handleFetchData();
   }, []);
 
-  useEffect(() => {
+  const FilterMonthData = () => {
     setSelectData(
       rawData.filter((item) => {
         return item.date.includes(month);
       })
     );
+  };
+
+  useEffect(() => {
+    FilterMonthData();
   }, [rawData, month]);
 
   useEffect(() => {
@@ -89,12 +111,11 @@ function App() {
         setDays(31);
         break;
     }
-
   }, [month]);
 
   return (
-    <div className="calendars">
-      <Month month={month} setMonth={setMonth} rawData={rawData}/>
+    <div className="calendar">
+      <Month month={month} setMonth={setMonth} rawData={rawData} />
       <Week />
       <Dates
         selectData={selectData}

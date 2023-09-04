@@ -1,22 +1,21 @@
 import React from "react";
 
 const MonthTab = ({
-  activeTab,
+  isClicked,
   setActiveTab,
-  calculateYearNum,
-  calculateMonthNum,
+  yearNum,
+  monthNum,
   rawData,
   monthStr,
   position,
 }) => {
   return (
     <li
-      className={`tab ${activeTab == position ? "clicked" : ""}`}
+      className={`tab ${isClicked ? "clicked" : ""}`}
       onClick={() => setActiveTab(position)}
     >
       <span className="fb-100per">
-        {calculateYearNum(position)}年{calculateMonthNum(position)}
-        月
+        {yearNum}年{monthNum}月
       </span>
       {!rawData.find((item) => {
         return item.date.includes(monthStr(position));
