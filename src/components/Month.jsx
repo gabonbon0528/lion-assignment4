@@ -34,6 +34,7 @@ const Month = ({ setMonth, rawData }) => {
   };
 
   useEffect(() => {
+    console.log('useEffect!')
     if (activeTab === -1) {
       setMonth(monthStr(-1));
     } else if (activeTab === 1) {
@@ -63,42 +64,53 @@ const Month = ({ setMonth, rawData }) => {
     }
   };
 
-  const commonProps = {
-    setActiveTab,
-    rawData,
-    monthStr,
-  };
+  const monthsToCheck = [-1, 0, 1];
+  const monthData = {};
+
+  rawData.forEach((item)=>{
+    item.date.includes(monthStr(-1))
+  })
+
+  // monthsToCheck.forEach((position) => {
+  //   const month = monthStr(position);
+  //   position : rawData.some((item) => item.date.includes(month));
+  // });
+
+  // console.log(monthData);
+  // console.log('aaa')
 
   return (
     <div className="month-wrapper">
       <div className="prev on" onClick={handleClickPrevBtn}></div>
       <ul className="tab-wrapper">
         <MonthTab
-          {...commonProps}
-          position={-1}
           isClicked={activeTab === -1}
+          setActiveTab={setActiveTab}
+          position={-1}
           yearNum={calculateYearNum(-1)}
           monthNum={calculateMonthNum(-1)}
+          isDataExisted={monthData[-1]}
         />
         <MonthTab
-          {...commonProps}
-          position={0}
           isClicked={activeTab === 0}
+          setActiveTab={setActiveTab}
+          position={0}
           yearNum={calculateYearNum(0)}
           monthNum={calculateMonthNum(0)}
+          isDataExisted={monthData[0]}
         />
         <MonthTab
-          {...commonProps}
-          position={1}
           isClicked={activeTab === 1}
+          setActiveTab={setActiveTab}
+          position={1}
           yearNum={calculateYearNum(1)}
           monthNum={calculateMonthNum(1)}
+          isDataExisted={monthData[1]}
         />
       </ul>
       <div className="next on" onClick={handleClickNextvBtn}></div>
     </div>
   );
 };
-
 
 export default Month;

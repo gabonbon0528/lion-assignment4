@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import Cell from "./Cell";
 import Filling from "./Filling";
 
-const Table = ({ selectData, month, days }) => {
+const Table = ({ selectData, month }) => {
   const [daysData, setDaysData] = useState([]);
   const [isClicked, setIsClicked] = useState("");
 

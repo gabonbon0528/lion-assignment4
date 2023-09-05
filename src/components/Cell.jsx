@@ -39,7 +39,7 @@ const Cell = ({ item, date, isClicked, handleClick, month }) => {
           <span className="price fb-100per">${item[0].price}</span>
         </>
       )}
-      {item.length > 1 && <SeeMore item={item} />}
+      {item.length > 1 && <SeeMore item={item}/>}
     </li>
   );
 };

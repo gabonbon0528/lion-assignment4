@@ -3,11 +3,10 @@ import React from "react";
 const MonthTab = ({
   isClicked,
   setActiveTab,
+  position,
   yearNum,
   monthNum,
-  rawData,
-  monthStr,
-  position,
+  isDataExisted,
 }) => {
   return (
     <li
@@ -17,9 +16,7 @@ const MonthTab = ({
       <span className="fb-100per">
         {yearNum}年{monthNum}月
       </span>
-      {!rawData.find((item) => {
-        return item.date.includes(monthStr(position));
-      }) && <span className="desc">無出發日</span>}
+      {isDataExisted && <span className="desc">無出發日</span>}
     </li>
   );
 };

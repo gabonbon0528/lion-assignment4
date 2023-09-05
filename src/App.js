@@ -8,7 +8,6 @@ function App() {
   const [month, setMonth] = useState("2018/08");
   const [rawData, setRawData] = useState([]);
   const [selectData, setSelectData] = useState([]);
-  const [days, setDays] = useState(30);
 
   const handleFetchData = async () => {
     try {
@@ -60,29 +59,6 @@ function App() {
     FilterMonthData();
   }, [rawData, month]);
 
-  useEffect(() => {
-
-    const [yearNum, monthNum] = month.split("/").map(Number);
-    switch (monthNum) {
-      case 4:
-      case 6:
-      case 9:
-      case 11:
-        setDays(30);
-        break;
-      case 2:
-        if ((yearNum % 4 === 0 && yearNum % 100 !== 0) || yearNum % 400 === 0) {
-          setDays(29);
-        } else {
-          setDays(28);
-        }
-        break;
-
-      default:
-        setDays(31);
-        break;
-    }
-  }, [month]);
 
   return (
     <div className="calendar">
@@ -91,7 +67,6 @@ function App() {
       <Table
         selectData={selectData}
         month={month}
-        days={days}
       />
     </div>
   );
