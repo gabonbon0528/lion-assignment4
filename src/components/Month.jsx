@@ -34,7 +34,6 @@ const Month = ({ setMonth, rawData }) => {
   };
 
   useEffect(() => {
-    console.log('useEffect!')
     if (activeTab === -1) {
       setMonth(monthStr(-1));
     } else if (activeTab === 1) {
@@ -65,19 +64,44 @@ const Month = ({ setMonth, rawData }) => {
   };
 
   const monthsToCheck = [-1, 0, 1];
-  const monthData = {};
 
-  rawData.forEach((item)=>{
-    item.date.includes(monthStr(-1))
-  })
+  // const getMonthData = (positionArr) => {
+  //   let monthData = {};
 
-  // monthsToCheck.forEach((position) => {
-  //   const month = monthStr(position);
-  //   position : rawData.some((item) => item.date.includes(month));
-  // });
+  //   const newMonth = positionArr.map((po) => monthStr(po));
+  //   // console.log(newMonth);
+  //   rawData.forEach((item) => {
+  //     if (item.date.includes(newMonth[0])) {
+  //       monthData[newMonth[0]] = true;
+  //     } else if (item.date.includes(newMonth[1])) {
+  //       monthData[newMonth[1]] = true;
+  //     } else if (item.date.includes(newMonth[2])) {
+  //       monthData[newMonth[2]] = true;
+  //     }
+  //   });
+  //   console.log(monthData);
+  // };
 
-  // console.log(monthData);
-  // console.log('aaa')
+  // getMonthData(monthsToCheck);
+
+  let monthData = {};
+
+  const getMonthData = (positionArr) => {
+    monthData = positionArr.reduce((result, po) => {
+      const month = monthStr(po);
+      rawData.forEach((item) => {
+        if (item.date.includes(month)) {
+          result[month] = true;
+        }
+      });
+      return result;
+    }, {});
+
+    console.log(monthData);
+  };
+
+  getMonthData(monthsToCheck);
+  console.log(monthData["2018/07"])
 
   return (
     <div className="month-wrapper">
@@ -89,7 +113,7 @@ const Month = ({ setMonth, rawData }) => {
           position={-1}
           yearNum={calculateYearNum(-1)}
           monthNum={calculateMonthNum(-1)}
-          isDataExisted={monthData[-1]}
+          isDataExisted={monthData["2018/07"]}
         />
         <MonthTab
           isClicked={activeTab === 0}

@@ -16,7 +16,7 @@ const MonthTab = ({
       <span className="fb-100per">
         {yearNum}年{monthNum}月
       </span>
-      {isDataExisted && <span className="desc">無出發日</span>}
+      {!isDataExisted && <span className="desc">無出發日</span>}
     </li>
   );
 };
