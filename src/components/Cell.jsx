@@ -1,15 +1,24 @@
 import React from "react";
-import SeeMore from "./SeeMore";
+import { statusOptions } from "../constants/constants";
 
-const Cell = ({ item, date, isClicked, handleClick, month }) => {
+const Cell = ({ item, date, isClicked, handleClick }) => {
+
+  const getLowestPrice = () => {
+    let lowestPrice = item[0]?.price;
+    for (let i = 0; i < item.length; i++) {
+      if (item[i].price <= lowestPrice) {
+        lowestPrice = item[i].price;
+      }
+    }
+    return lowestPrice;
+  };
 
   return (
     <li
       className={`date has-data ${
-        isClicked === `${month}/${date}` ? "clicked" : ""
+        isClicked ? "clicked" : ""
       }`}
-      id={`${month}/${date}`}
-      onClick={handleClick} // no (e) => handleClick(e) 
+      onClick={handleClick} // no need (e) => handleClick(e)
     >
       <span className="num fb-50per item">{date}</span>
       {item.length === 1 && (
@@ -23,9 +32,7 @@ const Cell = ({ item, date, isClicked, handleClick, month }) => {
           </span>
           <span
             className={`status fb-100per item ${
-              item[0].status === ("報名" || "後補" || "預定")
-                ? "color-green"
-                : "color-orange"
+              statusOptions[item[0].status] || statusOptions.default
             }`}
           >
             {item[0].status}
@@ -39,7 +46,15 @@ const Cell = ({ item, date, isClicked, handleClick, month }) => {
           <span className="price fb-100per">${item[0].price}</span>
         </>
       )}
-      {item.length > 1 && <SeeMore item={item}/>}
+      {item.length > 1 && (
+        <>
+          <div className="see-more fb-100per">
+            <div className="color-blue">看更多產品</div>
+            <span className="price">${getLowestPrice()}</span>
+            <span>起</span>
+          </div>
+        </>
+      )}
     </li>
   );
 };

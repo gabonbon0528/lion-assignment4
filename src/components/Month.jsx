@@ -5,7 +5,9 @@ const Month = ({ setMonth, rawData }) => {
   const [tabYear, setTabYear] = useState(2018);
   const [tabMonth, setTabMonth] = useState(8);
   const [activeTab, setActiveTab] = useState(0);
+  const positionArray = [-1, 0, 1];
 
+  // 判斷進位
   const calculateMonthNum = (position) => {
     if (position === -1) {
       return tabMonth > 1 ? tabMonth - 1 : 12;
@@ -15,6 +17,7 @@ const Month = ({ setMonth, rawData }) => {
     return tabMonth;
   };
 
+  // 判斷進位
   const calculateYearNum = (position) => {
     if (position === -1) {
       return tabMonth > 1 ? tabYear : tabYear - 1;
@@ -24,7 +27,8 @@ const Month = ({ setMonth, rawData }) => {
     return tabYear;
   };
 
-  const monthStr = (position) => {
+  // 組成字串
+  const createMonthString = (position) => {
     if (position === 0) {
       return `${tabYear}/${tabMonth.toString().padStart(2, "0")}`;
     }
@@ -33,14 +37,9 @@ const Month = ({ setMonth, rawData }) => {
       .padStart(2, "0")}`;
   };
 
+  // 根據 activeTab 位置去 render 月份資料
   useEffect(() => {
-    if (activeTab === -1) {
-      setMonth(monthStr(-1));
-    } else if (activeTab === 1) {
-      setMonth(monthStr(1));
-    } else {
-      setMonth(monthStr(0));
-    }
+    setMonth(createMonthString(activeTab));
   }, [activeTab, tabYear, tabMonth]);
 
   const handleClickPrevBtn = () => {
@@ -53,7 +52,7 @@ const Month = ({ setMonth, rawData }) => {
     }
   };
 
-  const handleClickNextvBtn = () => {
+  const handleClickNextBtn = () => {
     if (activeTab !== 1) {
       setActiveTab(activeTab + 1);
     }
@@ -63,76 +62,38 @@ const Month = ({ setMonth, rawData }) => {
     }
   };
 
-  const monthsToCheck = [-1, 0, 1];
+  // 判斷每月是否有產品
+  let monthProductExist = [];
 
-  // const getMonthData = (positionArr) => {
-  //   let monthData = {};
-
-  //   const newMonth = positionArr.map((po) => monthStr(po));
-  //   // console.log(newMonth);
-  //   rawData.forEach((item) => {
-  //     if (item.date.includes(newMonth[0])) {
-  //       monthData[newMonth[0]] = true;
-  //     } else if (item.date.includes(newMonth[1])) {
-  //       monthData[newMonth[1]] = true;
-  //     } else if (item.date.includes(newMonth[2])) {
-  //       monthData[newMonth[2]] = true;
-  //     }
-  //   });
-  //   console.log(monthData);
-  // };
-
-  // getMonthData(monthsToCheck);
-
-  let monthData = {};
-
-  const getMonthData = (positionArr) => {
-    monthData = positionArr.reduce((result, po) => {
-      const month = monthStr(po);
-      rawData.forEach((item) => {
-        if (item.date.includes(month)) {
-          result[month] = true;
-        }
-      });
-      return result;
-    }, {});
-
-    console.log(monthData);
+  const checkProductExist = (positionArray) => {
+    const newMonthArray = positionArray.map((position) =>
+      createMonthString(position)
+    );
+    monthProductExist = newMonthArray.map((month) => {
+      return rawData.some((item) => item.date.includes(month));
+    });
   };
 
-  getMonthData(monthsToCheck);
-  console.log(monthData["2018/07"])
+  checkProductExist(positionArray);
 
   return (
     <div className="month-wrapper">
       <div className="prev on" onClick={handleClickPrevBtn}></div>
       <ul className="tab-wrapper">
-        <MonthTab
-          isClicked={activeTab === -1}
-          setActiveTab={setActiveTab}
-          position={-1}
-          yearNum={calculateYearNum(-1)}
-          monthNum={calculateMonthNum(-1)}
-          isDataExisted={monthData["2018/07"]}
-        />
-        <MonthTab
-          isClicked={activeTab === 0}
-          setActiveTab={setActiveTab}
-          position={0}
-          yearNum={calculateYearNum(0)}
-          monthNum={calculateMonthNum(0)}
-          isDataExisted={monthData[0]}
-        />
-        <MonthTab
-          isClicked={activeTab === 1}
-          setActiveTab={setActiveTab}
-          position={1}
-          yearNum={calculateYearNum(1)}
-          monthNum={calculateMonthNum(1)}
-          isDataExisted={monthData[1]}
-        />
+        {positionArray.map((item, index) => {
+          return (
+            <MonthTab
+              isClicked={activeTab === item}
+              setActiveTab={setActiveTab}
+              position={item}
+              yearNum={calculateYearNum(item)}
+              monthNum={calculateMonthNum(item)}
+              isDataExisted={monthProductExist[index]}
+            />
+          );
+        })}
       </ul>
-      <div className="next on" onClick={handleClickNextvBtn}></div>
+      <div className="next on" onClick={handleClickNextBtn}></div>
     </div>
   );
 };

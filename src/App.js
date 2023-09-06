@@ -8,6 +8,7 @@ function App() {
   const [month, setMonth] = useState("2018/08");
   const [rawData, setRawData] = useState([]);
   const [selectData, setSelectData] = useState([]);
+  const [clickedDate, setClickedDate] = useState('');
 
   const handleFetchData = async () => {
     try {
@@ -59,7 +60,6 @@ function App() {
     FilterMonthData();
   }, [rawData, month]);
 
-
   return (
     <div className="calendar">
       <Month month={month} setMonth={setMonth} rawData={rawData} />
@@ -67,6 +67,8 @@ function App() {
       <Table
         selectData={selectData}
         month={month}
+        clickedDate={clickedDate}
+        setClickedDate={setClickedDate}
       />
     </div>
   );
