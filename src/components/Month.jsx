@@ -62,19 +62,18 @@ const Month = ({ setMonth, rawData }) => {
     }
   };
 
-  // 判斷每月是否有產品
-  let monthProductExist = [];
-
+  // 判斷每月是否有產品 // pure function
+  
   const checkProductExist = (positionArray) => {
     const newMonthArray = positionArray.map((position) =>
       createMonthString(position)
     );
-    monthProductExist = newMonthArray.map((month) => {
+    return newMonthArray.map((month) => {
       return rawData.some((item) => item.date.includes(month));
     });
   };
 
-  checkProductExist(positionArray);
+  const monthProductExist = checkProductExist(positionArray);
 
   return (
     <div className="month-wrapper">
